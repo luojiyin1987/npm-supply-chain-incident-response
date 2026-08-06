@@ -1,0 +1,35 @@
+name: Validate skill
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Validate shell syntax
+        run: bash -n scripts/triage-npm-package.sh
+
+      - name: Validate skill metadata
+        run: |
+          python -m json.tool skill.json >/dev/null
+          test "$(head -n 1 SKILL.md)" = "---"
+          grep -q '^name: npm-supply-chain-incident-response$' SKILL.md
+          grep -q '^description:' SKILL.md
+
+      - name: Validate required files
+        run: |
+          test -f README.md
+          test -f SKILL.md
+          test -f agents/openai.yaml
+          test -f references/decision-matrix.md
+          test -f references/incident-report-template.md
+          test -x scripts/triage-npm-package.sh
