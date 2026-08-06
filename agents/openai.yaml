@@ -1,0 +1,4 @@
+interface:
+  display_name: "npm Incident Response"
+  short_description: "Version-scoped npm supply-chain triage and containment"
+  default_prompt: "Use $npm-supply-chain-incident-response to verify the exact affected npm versions, determine local and CI execution exposure, assess credential risk, preserve evidence, and recommend the smallest safe containment actions."
