@@ -1,0 +1,5 @@
+{
+  "name": "npm-supply-chain-incident-response",
+  "description": "Investigate npm supply-chain alerts with version-scoped evidence, safe triage, credential exposure analysis, and precise containment",
+  "version": "0.1.0"
+}
