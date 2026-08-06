@@ -1,8 +1,32 @@
-# npm-supply-chain-incident-response
+# npm Supply Chain Incident Response Skill
 
-A reusable agent skill and read-only triage workflow for suspected npm supply-chain compromises.
+Investigate compromised and malicious npm packages without installing or executing them.
 
-It is designed for maintainers who need to move quickly without making the incident worse: verify the exact affected versions, determine whether those versions actually ran locally or in CI, preserve evidence, contain the registry exposure, and communicate a precise upgrade path.
+This agent skill gives npm maintainers a read-only incident response workflow for verifying affected package versions, inspecting npm tarballs safely, checking local and CI exposure, assessing credential risk, containing compromised releases, and publishing an accurate security notice.
+
+## Quick Start
+
+Clone the repository and run the read-only triage collector with the exact package name and reported affected versions:
+
+```bash
+git clone https://github.com/luojiyin1987/npm-supply-chain-incident-response.git
+cd npm-supply-chain-incident-response
+
+./scripts/triage-npm-package.sh @scope/package 1.2.3 1.2.4
+```
+
+The collector records npm registry metadata, publication times, `dist-tag` values, package scripts and dependencies, global and project-local dependency trees, pnpm dependency paths when available, and whether each reported version still exists in the registry.
+
+Artifacts are written under `incident-artifacts/` for review before any registry mutation.
+
+To download suspicious tarballs for static inspection without installing the package:
+
+```bash
+DOWNLOAD_TARBALLS=1 \
+  ./scripts/triage-npm-package.sh @scope/package 1.2.3 1.2.4
+```
+
+The workflow uses `npm pack`, records hashes and archive file lists, and never executes package contents.
 
 ## What it helps with
 
@@ -62,7 +86,7 @@ git clone https://github.com/luojiyin1987/npm-supply-chain-incident-response.git
   .agent/skills/npm-supply-chain-incident-response
 ```
 
-## Fast triage
+## Fast triage details
 
 Run the read-only collector from the repository or project you want to inspect:
 
