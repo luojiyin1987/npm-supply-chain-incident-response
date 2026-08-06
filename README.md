@@ -151,6 +151,27 @@ See [`references/decision-matrix.md`](references/decision-matrix.md) for the res
 
 This skill was created after investigating a real maintainer handover in which security tooling listed historical npm versions as affected, while the current maintainer had taken over later and was using newer versions. The main lesson is that package name matches are not enough: incident response must remain version-scoped, timeline-aware, and evidence-driven.
 
+## FAQ
+
+### Does this tool install suspicious npm packages?
+
+No. Registry inspection is read-only by default. Optional tarball collection
+uses `npm pack` and never executes package contents.
+
+### Can `npm audit` detect every npm supply-chain attack?
+
+No. A newly discovered malicious release may not yet have a published advisory.
+
+### What does `No version found` mean during `npm deprecate`?
+
+It means the queried registry does not currently expose that version. It does
+not identify who removed it.
+
+### Does `npm deprecate` notify existing users?
+
+No. It warns during future installations. Existing users require a separate
+security advisory or release notice.
+
 ## License
 
 MIT
