@@ -1,0 +1,3 @@
+incident-artifacts/
+*.tgz
+.DS_Store
